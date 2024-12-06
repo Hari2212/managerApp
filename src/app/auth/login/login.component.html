@@ -1,0 +1,22 @@
+<div class="d-flex justify-content-center align-items-center min-vh-100">
+    <div class="card shadow p-4" style="width: 400px;">
+      <h3 class="text-center mb-4">Login</h3>
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" formControlName="username"  placeholder="Enter your email" >
+          <div class="text-danger" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+            Please enter a valid email address.
+          </div>
+        </div>
+        <!-- <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" formControlName="password" placeholder="Enter your password" >
+            <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
+              Password must be a 3 letters
+            </div>
+        </div> -->
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+    </div>
+  </div>

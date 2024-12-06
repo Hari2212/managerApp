@@ -1,0 +1,65 @@
+<div class="container mt-4">
+    <!-- <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Manage Expenses</h3>
+        <button class="btn btn-success" (click)="addExpenses()">+ Add Expenditure</button>
+      </div> -->
+     
+    <!-- <div class="filters mb-3">
+        <div class="row">
+            <div class="col-md-3">
+                <h3>Manage Expenses</h3>
+            </div> -->
+
+            <!-- Financial Year Filter -->
+            <!-- <div class="col-md-3">
+                <label for="financialYear" class="form-label">Financial Year</label>
+                <select id="financialYear" class="form-control" [(ngModel)]="selectedFinancialYear"
+                    (change)="applyFilters()">
+                    <option *ngFor="let year of financialYears" [value]="year">{{ year }}</option>
+                </select>
+            </div> -->
+
+            <!-- Date Range Filter -->
+            
+            <!-- <div class="col-md-3">
+                <button class="btn btn-success" (click)="addExpenses()">+ Add Expenditure</button>
+            </div>
+
+        </div>
+    </div> -->
+
+    <table class="table table-bordered table-striped text-center">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Payout</th>
+                <th scope="col">Payment Type</th>
+                <th scope="col">Amount</th>
+                <th scope="col">Notes</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of tableData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ row.payout }}</td>
+                <td>{{ row.paymentType }}</td>
+                <td>{{ row.amount }}</td>
+                <td>{{ row.notes }}</td>
+                <td>{{ row.createdDate | date: 'short' }}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" (click)="editRow(i)">
+                        Edit
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger btn-sm" (click)="deleteRow(i)">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

@@ -1,0 +1,82 @@
+<!-- <div class="d-flex">
+
+    <nav class="sidebar bg-dark text-white vh-100">
+      <ul class="list-unstyled p-3">
+        <li class="mb-3">
+          <a  [routerLink]="'/dashboard'" class="text-white text-decoration-none">Dashboard</a>
+        </li>
+        <li class="mb-3">
+          <a [routerLink]="'/dashboard/sub-category'"  class="text-white text-decoration-none">Users</a>
+        </li>
+        <li class="mb-3">
+          <a href="#" class="text-white text-decoration-none">Settings</a>
+        </li>
+        <li>
+          <a href="#" class="text-white text-decoration-none">Logout</a>
+        </li>
+      </ul>
+    </nav>
+  
+    
+    <div class="content flex-grow-1 p-3">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+   -->
+
+
+   <div class="d-flex">
+    <!-- Sidebar -->
+    <nav
+      class="sidebar bg-dark text-white vh-100"
+      [ngClass]="{ 'sidebar-collapsed': isMobileView }"
+    >
+      <ul class="list-unstyled p-3">
+        <li class="mb-3">
+          <a [routerLink]="'/category'" class="text-white text-decoration-none d-flex align-items-center">
+            <i class="fas fa-tachometer-alt me-2" *ngIf="isMobileView"></i>
+            <span *ngIf="!isMobileView">Category</span>
+          </a>
+        </li>
+        <li class="mb-3">
+          <a
+            [routerLink]="'/category/sub-category'"
+            class="text-white text-decoration-none d-flex align-items-center"
+          >
+            <i class="fas fa-users me-2" *ngIf="isMobileView"></i>
+            <span *ngIf="!isMobileView">Sub Category</span>
+          </a>
+        </li>
+        <li class="mb-3">
+          <a [routerLink]="'/category/payment-type'" class="text-white text-decoration-none d-flex align-items-center">
+            <i class="fas fa-cog me-2" *ngIf="isMobileView"></i>
+            <span *ngIf="!isMobileView">Payment Type</span>
+          </a>
+        </li>
+        <li class="mb-3">
+          <a [routerLink]="'/category/expenditure'" class="text-white text-decoration-none d-flex align-items-center">
+            <i class="fas fa-cog me-2" *ngIf="isMobileView"></i>
+            <span *ngIf="!isMobileView">Expenditure</span>
+          </a>
+        </li>
+        <li class="mb-3">
+          <a [routerLink]="'/category/manage-expenses'" class="text-white text-decoration-none d-flex align-items-center">
+            <i class="fas fa-cog me-2" *ngIf="isMobileView"></i>
+            <span *ngIf="!isMobileView">Manage Expenses</span>
+          </a>
+        </li>
+        <li>
+          <a href="#"  class="text-white text-decoration-none d-flex align-items-center">
+            <i class="fas fa-sign-out-alt me-2" *ngIf="isMobileView"></i>
+            <span *ngIf="!isMobileView">Logout</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  
+    <!-- Main Content -->
+    <div class="content flex-grow-1 p-3">
+      <router-outlet></router-outlet>
+    </div>
+  </div>
+  

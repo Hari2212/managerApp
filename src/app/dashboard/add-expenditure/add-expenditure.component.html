@@ -1,0 +1,33 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="categoryModalLabel">Add Expenditure</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closePopup()"
+            aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addExpenditureForm" (ngSubmit)="addExpenditure()">
+            <div class="mb-3">
+                <label for="parentCategory" class="form-label">Parent Category</label>
+                <select class="form-control" name="parentCategory" formControlName="category">
+                    <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.title }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="parentCategory" class="form-label">Parent Category</label>
+                <select class="form-control" name="parentCategory" formControlName="subCategory">
+                    <option *ngFor="let category of categories" [value]="category.id">
+                        {{ category.title }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="categoryTitle" class="form-label">Expenditure Title</label>
+                <input type="text" class="form-control" name="categoryTitle" formControlName="expenditureTitle"
+                    placeholder="Expenditure title" />
+            </div>
+            <button type="submit" class="btn btn-primary float-end">Add Expenditure</button>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h3>Category</h3>
+        <button class="btn btn-success" (click)="addCategory()">+ Add Category</button>
+      </div>
+    
+    <table class="table table-bordered table-striped text-center">
+        <thead class="table-dark">
+            <tr>
+                <th scope="col">SN</th>
+                <th scope="col">Category</th>
+                <th scope="col">Created Date</th>
+                <th scope="col">Edit</th>
+                <th scope="col">Delete</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let row of tableData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ row["title"] }}</td>
+                <td>{{ row["updateddAt"] | date: 'short' }}</td>
+                <td>
+                    <button class="btn btn-primary btn-sm" (click)="editRow(row)">
+                        Edit
+                    </button>
+                </td>
+                <td>
+                    <button class="btn btn-danger btn-sm" (click)="deleteRow(row['_id'])">
+                        Delete
+                    </button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

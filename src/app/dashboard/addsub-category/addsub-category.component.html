@@ -1,0 +1,25 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="modal-title" id="categoryModalLabel">Add Sub Category</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closePopup()"
+            aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+        <form [formGroup]="addCategoryForm" (ngSubmit)="addSubCategory()">
+            <div class="mb-3">
+                <label for="parentCategory" class="form-label">Parent Category</label>
+                <select class="form-control" name="parentCategory" formControlName="parentCategory">
+                    <option *ngFor="let category of categories" [value]="category._id">
+                        {{ category.title }}
+                    </option>
+                </select>
+            </div>
+            <div class="mb-3">
+                <label for="categoryTitle" class="form-label">Category Title</label>
+                <input type="text" class="form-control" name="categoryTitle" formControlName="subcategoryTitle"
+                    placeholder="Enter category title" />
+            </div>
+            <button type="submit" class="btn btn-primary float-end">{{buttonName}}</button>
+        </form>
+    </div>
+</div>
