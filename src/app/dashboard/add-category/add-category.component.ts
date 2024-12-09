@@ -12,6 +12,7 @@ export class AddCategoryComponent {
   @Input() popupType: String | any;
   @Input() popupOpen: String | any;
   @Input() content: String | any;
+  errrMessage : any;
   addCategoryForm: FormGroup;
   constructor(
     private formBuilder: FormBuilder,
@@ -19,7 +20,7 @@ export class AddCategoryComponent {
     private apiService: ApicallsService
   ) {
     this.addCategoryForm = this.formBuilder.group({
-      categoryTitle: ['', [Validators.required]]
+      title: ['', [Validators.required]]
     })
   }
   buttonName = 'Add Category';
@@ -27,37 +28,63 @@ export class AddCategoryComponent {
   title: any;
   ngOnInit() {
     if (this.popupType == "payment") {
+      this.errrMessage = "Payment title is required!!!";
       this.placeholdername = "Payment title";
       this.title = "Payment Type";
+      if (this.popupOpen == "edit") {
+        this.buttonName = "Update Payment";
+        this.addCategoryForm = this.formBuilder.group({
+          title: [this.content['title'], [Validators.required]]
+        })
+      }
     } else {
+      this.errrMessage = "Category title is required!!!";
       this.placeholdername = "Category title";
       this.title = "Category";
-    }
-    if(this.popupOpen == "edit"){
-      this.buttonName = "Update Category";
-      this.addCategoryForm = this.formBuilder.group({
-        categoryTitle: [this.content['title'], [Validators.required]]
-      })
-
+      if (this.popupOpen == "edit") {
+        this.buttonName = "Update Category";
+        this.addCategoryForm = this.formBuilder.group({
+          title: [this.content['title'], [Validators.required]]
+        })
+      }
     }
   }
-  userId : any;
+  userId: any;
   addCategory() {
-    this.userId = localStorage.getItem('userId');
-    if (this.addCategoryForm.valid) {
-      if(this.popupOpen == "edit"){
-        
-        this.apiService.updateCategory(this.content['_id'],this.userId,this.addCategoryForm.get('categoryTitle')?.value)
-        .subscribe(x => {
-          this.model.close(true);
-        })
-        return;
+    if(this.addCategoryForm.invalid){
+      this.addCategoryForm.markAllAsTouched();
+      return;
+    }
+    if (this.popupType == "payment") {
+      if (this.addCategoryForm.valid) {
+        if (this.popupOpen == "edit") {
+          this.apiService.updatePayment(this.content['_id'], this.addCategoryForm.get('title')?.value)
+            .subscribe(x => {
+              this.model.close(true);
+            })
+        }else{
+          this.apiService.addPayment(this.addCategoryForm.get('title')?.value)
+          .subscribe(x => {
+            this.model.close(true);
+          })
+        }
       }
-      
-      this.apiService.addCategory(this.addCategoryForm.get('categoryTitle')?.value,this.userId)
-        .subscribe(x => {
-          this.model.close(true);
-        })
+    } else {
+      if (this.addCategoryForm.valid) {
+        if (this.popupOpen == "edit") {
+
+          this.apiService.updateCategory(this.content['_id'], this.addCategoryForm.get('title')?.value)
+            .subscribe(x => {
+              this.model.close(true);
+            })
+          return;
+        }
+
+        this.apiService.addCategory(this.addCategoryForm.get('title')?.value)
+          .subscribe(x => {
+            this.model.close(true);
+          })
+      }
     }
   }
   closePopup() {

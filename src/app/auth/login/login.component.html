@@ -1,22 +1,103 @@
-<div class="d-flex justify-content-center align-items-center min-vh-100">
+<!-- <div  class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow p-4" style="width: 400px;">
+    <h3 class="text-center mb-4">Login</h3>
+    <form *ngIf="islogin" [formGroup]="loginForm" (ngSubmit)="login()">
+      <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" formControlName="username" placeholder="Email">
+        <div class="text-danger" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+          Please enter a valid email address.
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Login</button>
+    </form>
+    <form *ngIf="!islogin" [formGroup]="otpForm" (ngSubmit)="verifyOtp()">
+      <div class="mb-3">
+        <label for="email" class="form-label">Otp</label>
+        <input type="email" class="form-control" formControlName="otp" placeholder="Enter otp">
+        <div class="text-danger" *ngIf="otpForm.get('otp')?.invalid && otpForm.get('username')?.touched">
+          Please enter a valid OTP .
+        </div>
+      </div>
+
+      <button type="submit" class="btn btn-primary w-100">Verify Otp</button>
+    </form>
+  </div>
+</div> -->
+<div class="container">
+  <div class="text-center">
+    <h1>Expense Manager Application</h1>
+  </div>
+  
+  <div class="d-flex justify-content-center align-items-center min-vh-100">
     <div class="card shadow p-4" style="width: 400px;">
       <h3 class="text-center mb-4">Login</h3>
-      <form [formGroup]="loginForm" (ngSubmit)="login()">
+
+      <form *ngIf="islogin" [formGroup]="loginForm" (ngSubmit)="login()">
         <div class="mb-3">
           <label for="email" class="form-label">Email address</label>
-          <input type="email" class="form-control" formControlName="username"  placeholder="Enter your email" >
-          <div class="text-danger" *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched">
+          <input
+            type="email"
+            class="form-control"
+            formControlName="username"
+            placeholder="Email"
+          />
+          <div
+            class="text-danger"
+            *ngIf="loginForm.get('username')?.invalid && loginForm.get('username')?.touched"
+          >
             Please enter a valid email address.
           </div>
         </div>
-        <!-- <div class="mb-3">
+
+        <button type="submit" class="btn btn-primary w-100">Login</button>
+      </form>
+
+      <form *ngIf="!islogin" [formGroup]="otpForm" (ngSubmit)="verifyOtp()">
+        <div class="mb-3">
+          <label for="otp" class="form-label">OTP</label>
+          <input
+            type="text"
+            class="form-control"
+            formControlName="otp"
+            placeholder="Enter OTP"
+          />
+          <div
+            class="text-danger"
+            *ngIf="otpForm.get('otp')?.invalid && otpForm.get('otp')?.touched"
+          >
+            Please enter a valid OTP.
+          </div>
+          <div
+            class="text-danger"
+            *ngIf="!otpVerify"
+          >
+            Invalid OTP.
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-100">Verify OTP</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div *ngIf="!islogin" class="d-flex justify-content-center align-items-center min-vh-100">
+  <div class="card shadow p-4" style="width: 400px;">
+    <h3 class="text-center mb-4">Login</h3>
+   
+  </div>
+</div> -->
+
+
+
+
+<!-- <div class="mb-3">
             <label for="password" class="form-label">Password</label>
             <input type="password" class="form-control" formControlName="password" placeholder="Enter your password" >
             <div *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" class="text-danger">
               Password must be a 3 letters
             </div>
         </div> -->
-        <button type="submit" class="btn btn-primary w-100">Login</button>
-      </form>
-    </div>
-  </div>

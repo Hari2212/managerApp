@@ -19,17 +19,18 @@
         <tbody>
             <tr *ngFor="let row of tableData; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{ row.category }}</td>
-                <td>{{ row.subCategory  }}</td>
-                <td>{{ row.Expenditure  }}</td>
-                <td>{{ row.createdDate | date: 'short' }}</td>
+                <td>{{ row.categoryData.title }}</td>
+                <td *ngIf="row.subcategoryData">{{ row.subcategoryData.title  }}</td>
+                <td *ngIf="!row.subcategoryData"> No Sub-Category </td>
+                <td>{{ row.title  }}</td>
+                <td>{{ row.createdAt | date: 'short' }}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" (click)="editRow(i)">
+                    <button class="btn btn-primary btn-sm" (click)="editRow(row)">
                         Edit
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-danger btn-sm" (click)="deleteRow(i)">
+                    <button class="btn btn-danger btn-sm" (click)="deleteRow(row)">
                         Delete
                     </button>
                 </td>

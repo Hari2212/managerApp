@@ -10,31 +10,58 @@ import { ApicallsService } from '../../dashboard/services/apicalls.service';
 })
 export class LoginComponent {
   loginForm: FormGroup;
-
+  otpForm: FormGroup;
+  islogin: any;
+  email: any;
+  otpVerify = true;
   constructor(
     private formBuilder: FormBuilder,
-    private router : Router,
-    private apiCalls : ApicallsService
+    private router: Router,
+    private apiCalls: ApicallsService,
+    // private toString : T
   ) {
     this.loginForm = this.formBuilder.group({
       username: ['', [Validators.required, Validators.email]],
-      // password: ['', [Validators.required, Validators.minLength(6)]]
+    })
+    this.otpForm = this.formBuilder.group({
+      otp: ['', [Validators.required, Validators.maxLength(4), Validators.minLength(4)]],
     })
   }
-
-  login(){
-    if(this.loginForm.invalid){
+  ngOnInit() {
+    this.islogin = true;
+  }
+  login() {
+    if (this.loginForm.invalid) {
       return;
     }
     this.apiCalls.login(this.loginForm.get('username')?.value)
-    .subscribe(x => {
-      console.log("data",x)
-      localStorage.setItem('userId' , "67527ca4dacda77fe6d50fc9");
-      this.router.navigateByUrl("/category")
-
-    })
-    
-    // Login Api
+      .subscribe(
+        x => {
+          this.email = this.loginForm.get('username')?.value;
+          this.islogin = false;
+        }
+      )
     console.log(this.loginForm)
+  }
+  verifyOtp() {
+    if(this.otpForm.invalid){
+      this.otpForm.markAllAsTouched();
+      return;
+    }
+    if (this.otpForm.valid) {
+      this.apiCalls.verifyOtp(this.email, this.otpForm.get('otp')?.value)
+        .subscribe({
+          next: x => {
+            this.otpVerify =true;
+            this.router.navigateByUrl("/category")
+          },
+          error: e => {
+            console.log("Prinitng otp err",e)
+            this.otpVerify =false;
+          }
+        }
+        )
+
+    }
   }
 }

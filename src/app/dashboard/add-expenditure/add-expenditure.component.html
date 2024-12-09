@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="categoryModalLabel">Add Expenditure</h5>
+        <h5 class="modal-title" >{{buttonName}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closePopup()"
             aria-label="Close"></button>
     </div>
@@ -8,26 +8,38 @@
         <form [formGroup]="addExpenditureForm" (ngSubmit)="addExpenditure()">
             <div class="mb-3">
                 <label for="parentCategory" class="form-label">Parent Category</label>
-                <select class="form-control" name="parentCategory" formControlName="category">
-                    <option *ngFor="let category of categories" [value]="category.id">
+                <select class="form-control" name="parentCategory" (change)="changeCategory()" formControlName="category">
+                    <option *ngFor="let category of category" [value]="category._id">
                         {{ category.title }}
                     </option>
                 </select>
+                <div class="text-danger"
+                    *ngIf="addExpenditureForm.get('category')?.invalid && addExpenditureForm.get('category')?.touched">
+                    Pleace select category!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="parentCategory" class="form-label">Parent Category</label>
                 <select class="form-control" name="parentCategory" formControlName="subCategory">
-                    <option *ngFor="let category of categories" [value]="category.id">
+                    <option *ngFor="let category of subCategory" [value]="category._id">
                         {{ category.title }}
                     </option>
                 </select>
+                <div class="text-danger"
+                    *ngIf="addExpenditureForm.get('subCategory')?.invalid && addExpenditureForm.get('subCategory')?.touched">
+                    Pleace select sub-category!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="categoryTitle" class="form-label">Expenditure Title</label>
                 <input type="text" class="form-control" name="categoryTitle" formControlName="expenditureTitle"
                     placeholder="Expenditure title" />
+                    <div class="text-danger"
+                    *ngIf="addExpenditureForm.get('expenditureTitle')?.invalid && addExpenditureForm.get('expenditureTitle')?.touched">
+                    Expendituretitle is required!
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary float-end">Add Expenditure</button>
+            <button type="submit" class="btn btn-primary float-end">{{buttonName}}</button>
         </form>
     </div>
 </div>

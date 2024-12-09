@@ -17,15 +17,15 @@
         <tbody>
             <tr *ngFor="let row of tableData; let i = index">
                 <td>{{ i + 1 }}</td>
-                <td>{{ row.name }}</td>
-                <td>{{ row.createdDate | date: 'short' }}</td>
+                <td>{{ row.title }}</td>
+                <td>{{ row.updatedAt | date: 'short' }}</td>
                 <td>
-                    <button class="btn btn-primary btn-sm" (click)="editRow(i)">
+                    <button class="btn btn-primary btn-sm" (click)="editRow(row)">
                         Edit
                     </button>
                 </td>
                 <td>
-                    <button class="btn btn-danger btn-sm" (click)="deleteRow(i)">
+                    <button class="btn btn-danger btn-sm" (click)="deleteRow(row)">
                         Delete
                     </button>
                 </td>

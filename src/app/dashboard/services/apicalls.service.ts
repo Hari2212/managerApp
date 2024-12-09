@@ -1,15 +1,35 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-
+import { User } from '../../middlewere/helpers/userdetails';
+import { Location } from '@angular/common';
+import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 @Injectable({
   providedIn: 'root'
 })
 export class ApicallsService {
   APIURL = "http://localhost:4000/api/";
+ public userDetails!: BehaviorSubject<User>;
+ public user! : Observable<User>;
   constructor(
-    private http: HttpClient
-  ) { }
+    private http: HttpClient,
+    private location : Location,
+    private router : Router,
+    // private toastr : ToastrService
+  ) { 
+  
+    this.userDetails = new BehaviorSubject<User>(
+      localStorage.getItem('userDetails')
+        ? JSON.parse(localStorage.getItem('userDetails')!)
+        : { userId: '', token: '' } 
+    );
+    this.user = this.userDetails.asObservable();
+  }
+  public get getToken(): User {
+    return this.userDetails.value;
+  }
   login(email : String){
     return this.http.post<any>(this.APIURL + "auth/login", {
       email: email
@@ -17,22 +37,36 @@ export class ApicallsService {
       return res;
     }))
   }
-  addCategory(title: String, userId: String) {
+
+  verifyOtp(email : String,otp : String){
+    return this.http.post<any>(this.APIURL+"auth/verifyotp",{email:email,otp:otp})
+    .pipe(map(res => {
+      if(res.success){
+        var obj : User = {
+          userId : res.response.userId,
+          token : res.response.token
+        }
+        localStorage.setItem('userDetails',JSON.stringify(obj))
+        this.userDetails.next(obj);
+      }
+      return res;
+    }))
+  }
+  addCategory(title: String) {
     return this.http.post<any>(this.APIURL + "app/addCategory", {
       title: title,
-      userId: userId,
     }).pipe(map(res => {
       return res;
     }))
   }
-  getAllCategory(userId: String) {
-    return this.http.get<any>(this.APIURL + "app/getAllCategory?userId=" + userId).pipe(map(res => {
+  getAllCategory() {
+    return this.http.get<any>(this.APIURL + "app/getAllCategory").pipe(map(res => {
       return res;
     }))
   }
-  updateCategory(categoryId: String, userId: String, title: String) {
+  updateCategory(categoryId: String, title: String) {
     return this.http.put<any>(this.APIURL + "app/updateCategory", {
-      userId: userId,
+      
       categoryId: categoryId,
       title: title
     }).pipe(map(res => {
@@ -47,17 +81,16 @@ export class ApicallsService {
 
 
 
-  addSubCategory(title: String, userId: String, categoryId: String) {
+  addSubCategory(title: String, categoryId: String) {
     return this.http.post<any>(this.APIURL + "app/addSubCategory", {
       subCategoryTitle: title,
-      userId: userId,
       categoryId: categoryId
     }).pipe(map(res => {
       return res;
     }))
   }
-  getAllSubCategory(userId: String) {
-    return this.http.get<any>(this.APIURL + "app/getAllSubCategory?userId=" + userId).pipe(map(res => {
+  getAllSubCategory() {
+    return this.http.get<any>(this.APIURL + "app/getAllSubCategory").pipe(map(res => {
       return res;
     }))
   }
@@ -78,16 +111,15 @@ export class ApicallsService {
 
 
 
-  addPayment(title: String, userId: String) {
+  addPayment(title: String) {
     return this.http.post<any>(this.APIURL + "app/addPayment", {
       title: title,
-      userId: userId,
     }).pipe(map(res => {
       return res;
     }))
   }
-  getAllPayment(userId: String) {
-    return this.http.get<any>(this.APIURL + "app/getAllPayment?userId=" + userId).pipe(map(res => {
+  getAllPayment() {
+    return this.http.get<any>(this.APIURL + "app/getAllPayment").pipe(map(res => {
       return res;
     }))
   }
@@ -108,18 +140,17 @@ export class ApicallsService {
 
 
 
-  addExpenditures(title: String, userId: String,categoryId:String,subcategoryId:String,) {
+  addExpenditures(title: String,categoryId:String,subcategoryId:String,) {
     return this.http.post<any>(this.APIURL + "app/addExpenditures", {
       title: title,
-      userId: userId,
       categoryId: categoryId,
       subcategoryId: subcategoryId,
     }).pipe(map(res => {
       return res;
     }))
   }
-  getAllExpenditures(userId: String) {
-    return this.http.get<any>(this.APIURL + "app/getAllExpenditures?userId=" + userId).pipe(map(res => {
+  getAllExpenditures() {
+    return this.http.get<any>(this.APIURL + "app/getAllExpenditures").pipe(map(res => {
       return res;
     }))
   }
@@ -141,19 +172,18 @@ export class ApicallsService {
 
 
 
-  addExpenses(amount: String, notes: String,paymentType:String,payOut:String,userId:String) {
+  addExpenses(amount: String, notes: String,paymentType:String,payOut:String) {
     return this.http.post<any>(this.APIURL + "app/addExpenses", {
       amount: amount,
       notes: notes,
       paymentType: paymentType,
       payOut: payOut,
-      userId: userId,
     }).pipe(map(res => {
       return res;
     }))
   }
-  getAllExpenses(userId: String) {
-    return this.http.get<any>(this.APIURL + "app/getAllExpenses?userId=" + userId).pipe(map(res => {
+  getAllExpenses(type : any,date : any) {
+    return this.http.get<any>(this.APIURL + "app/getAllExpenses?getType=" + type + "&date=" + date).pipe(map(res => {
       return res;
     }))
   }
@@ -176,11 +206,23 @@ export class ApicallsService {
 
 
 
-  getcategoryBasedSubCategory(subCategoryId: String) {
-    return this.http.get<any>(this.APIURL + "app/getcategoryBasedSubCategory?subCategoryId=" + subCategoryId).pipe(map(res => {
+  getcategoryBasedSubCategory(categoryId: String) {
+    return this.http.get<any>(this.APIURL + "app/getcategoryBasedSubCategory?categoryId=" + categoryId).pipe(map(res => {
       return res;
     }))
   }
 
-
+  logout(){
+    var obj : User = {
+      userId : '',
+      token : ''
+    }
+    this.userDetails.next(obj);
+    localStorage.removeItem('userDetails');
+    this.router.navigateByUrl('');
+  }
+  // error(content : any){
+  //   console.log("Prinitng err content",content)
+  //   this.toastr.error(content, 'Error');
+  // }
 }

@@ -20,7 +20,7 @@ export class AddsubCategoryComponent {
   ) {
     this.addCategoryForm = this.formBuilder.group({
       parentCategory: ['', [Validators.required]],
-      subcategoryTitle: ['', [Validators.required, Validators.minLength(6)]]
+      subcategoryTitle: ['', [Validators.required, Validators.minLength(3)]]
     })
   }
   buttonName = "Add Sub Category";
@@ -30,14 +30,14 @@ export class AddsubCategoryComponent {
       this.buttonName = "Update Sub Category";
       this.addCategoryForm = this.formBuilder.group({
         parentCategory: [this.content.categoryData._id, [Validators.required]],
-        subcategoryTitle: [this.content.title, [Validators.required, Validators.minLength(6)]]
+        subcategoryTitle: [this.content.title, [Validators.required, Validators.minLength(3)]]
       })
     }
   }
   userId: any;
   fetchDetails() {
     this.userId = localStorage.getItem('userId');
-    this.apiCalls.getAllCategory(this.userId)
+    this.apiCalls.getAllCategory()
       .subscribe(x => {
         this.categories = x.response;
         console.log("gettoingv data", this.categories)
@@ -47,6 +47,10 @@ export class AddsubCategoryComponent {
     this.popupClose.close(false);
   }
   addSubCategory() {
+    if(this.addCategoryForm.invalid){
+      this.addCategoryForm.markAllAsTouched();
+      return;
+    }
     this.userId = localStorage.getItem('userId');
     if(this.popupType == "edit"){
       this.apiCalls.updateSubCategory(this.content._id,this.addCategoryForm.get('subcategoryTitle')?.value,this.addCategoryForm.get('parentCategory')?.value)
@@ -57,7 +61,7 @@ export class AddsubCategoryComponent {
     }
     // console.log("Printing elemnets",this.addCategoryForm.valid)
     if (this.addCategoryForm.valid) {
-      this.apiCalls.addSubCategory(this.addCategoryForm.get('subcategoryTitle')?.value, this.userId, this.addCategoryForm.get('parentCategory')?.value)
+      this.apiCalls.addSubCategory(this.addCategoryForm.get('subcategoryTitle')?.value,  this.addCategoryForm.get('parentCategory')?.value)
         .subscribe(x => {
           this.popupClose.close(true);
         })

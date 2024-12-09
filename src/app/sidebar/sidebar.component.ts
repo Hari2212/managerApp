@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, HostListener } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
+import { ApicallsService } from '../dashboard/services/apicalls.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -11,7 +12,11 @@ import { RouterLink, RouterOutlet } from '@angular/router';
 })
 export class SidebarComponent {
   isMobileView: boolean = false;
+  constructor(
+    private apiCalls : ApicallsService
+  ){
 
+  }
   ngOnInit() {
     this.checkScreenWidth();
   }
@@ -22,6 +27,9 @@ export class SidebarComponent {
   }
 
   checkScreenWidth() {
-    this.isMobileView = window.innerWidth < 768; // Adjust breakpoint as needed
+    this.isMobileView = window.innerWidth < 768; 
+  }
+  logout(){
+    this.apiCalls.logout();
   }
 }

@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="categoryModalLabel">Add Sub Category</h5>
+        <h5 class="modal-title">Add Sub Category</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closePopup()"
             aria-label="Close"></button>
     </div>
@@ -13,11 +13,19 @@
                         {{ category.title }}
                     </option>
                 </select>
+                <div class="text-danger"
+                    *ngIf="addCategoryForm.get('parentCategory')?.invalid && addCategoryForm.get('parentCategory')?.touched">
+                    Please select a category.
+                </div>
             </div>
             <div class="mb-3">
                 <label for="categoryTitle" class="form-label">Category Title</label>
                 <input type="text" class="form-control" name="categoryTitle" formControlName="subcategoryTitle"
                     placeholder="Enter category title" />
+                <div class="text-danger"
+                    *ngIf="addCategoryForm.get('subcategoryTitle')?.invalid && addCategoryForm.get('subcategoryTitle')?.touched">
+                    Please enter sub-category title.
+                </div>
             </div>
             <button type="submit" class="btn btn-primary float-end">{{buttonName}}</button>
         </form>

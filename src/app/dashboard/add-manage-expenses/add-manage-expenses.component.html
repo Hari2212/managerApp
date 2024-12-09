@@ -1,6 +1,6 @@
 <div class="modal-content">
     <div class="modal-header">
-        <h5 class="modal-title" id="categoryModalLabel">Add Expenditure</h5>
+        <h5 class="modal-title">{{buttonName}}</h5>
         <button type="button" class="btn-close" data-bs-dismiss="modal" (click)="closePopup()"
             aria-label="Close"></button>
     </div>
@@ -9,30 +9,46 @@
             <div class="mb-3">
                 <label for="parentCategory" class="form-label">Payout</label>
                 <select class="form-control" name="parentCategory" formControlName="payout">
-                    <option *ngFor="let category of categories" [value]="category.id">
+                    <option *ngFor="let category of payouts" [value]="category._id">
                         {{ category.title }}
                     </option>
                 </select>
+                <div class="text-danger"
+                    *ngIf="addExpensesForm.get('payout')?.invalid && addExpensesForm.get('payout')?.touched">
+                    Pleace select payout!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="parentCategory" class="form-label">Payment Type</label>
                 <select class="form-control" name="parentCategory" formControlName="paymentType">
-                    <option *ngFor="let category of categories" [value]="category.id">
+                    <option *ngFor="let category of paymentTypes" [value]="category._id">
                         {{ category.title }}
                     </option>
                 </select>
+                <div class="text-danger"
+                    *ngIf="addExpensesForm.get('paymentType')?.invalid && addExpensesForm.get('paymentType')?.touched">
+                    Pleace select payment-type!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="categoryTitle" class="form-label">Amount</label>
-                <input type="text" class="form-control" name="categoryTitle" formControlName="amount"
+                <input type="number" class="form-control" name="categoryTitle" formControlName="amount"
                     placeholder="Amount" />
+                <div class="text-danger"
+                    *ngIf="addExpensesForm.get('amount')?.invalid && addExpensesForm.get('amount')?.touched">
+                    Amount is required!
+                </div>
             </div>
             <div class="mb-3">
                 <label for="categoryTitle" class="form-label">Notes</label>
                 <input type="text" class="form-control" name="categoryTitle" formControlName="notes"
                     placeholder="Notes" />
+                <div class="text-danger"
+                    *ngIf="addExpensesForm.get('notes')?.invalid && addExpensesForm.get('notes')?.touched">
+                    Notes is required!
+                </div>
             </div>
-            <button type="submit" class="btn btn-primary float-end">Add Expenditure</button>
+            <button type="submit" class="btn btn-primary float-end">{{buttonName}}</button>
         </form>
     </div>
 </div>
